@@ -1,3 +1,3 @@
 # PyPhisher
 
-A simple python tools for phishing
+A simple python tool for phishing
