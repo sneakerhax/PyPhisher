@@ -17,5 +17,5 @@ PyPhisher.py --server mail.server.com --port 25 --username user --password passw
 --url_replace     The url that will be used to replace all links in the email
 --subject         The subject that will appear in the email message
 --sender          The sender that will appear on the email example
---sendto          Who you would like to send the message to
+--sendto          Who you would like to send the email to
 ```
