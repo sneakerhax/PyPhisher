@@ -2,6 +2,7 @@ import smtplib
 import sys, argparse
 import re
 import base64 
+import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -10,15 +11,24 @@ def banner():
 	print "#          PyPhisher            #"
 	print "#       by: sneakerhax          #"
 	print "#################################"
+	
+def main(args):
+	pish(args)
+	
+def pish(args):
+	message_html = open_html_file(args.html)
+	html_output = replace_links(args.url_replace, message_html)
+	message = mime_message(args.subject, args.sendto, args.sender, html_output)
+	send_email(args.server, args.port, args.username, args.password, args.sender, args.sendto, message)
 
 def open_html_file(file):
 	with open(file, 'r') as open_html:
 		email_html = open_html.read()
 	return email_html
 	
-def replace_links(url):
+def replace_links(url, message):
 	html_regex = re.compile(r"""(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>\[\]]+|\(([^\s()<>\[\]]+|(\([^\s()<>\[\]]+\)))*\))+(?:\(([^\s()<>\[\]]+|(\([^\s()<>\[\]]+\)))*\)|[^\s`!(){};:'".,<>?\[\]]))""")
-	html_output = html_regex.sub(url, message_html)
+	html_output = html_regex.sub(url, message)
 	return html_output
 			
 def mime_message(subject, sendto, sender, html):
@@ -54,9 +64,6 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 	
 	banner()
-	
-	message_html = open_html_file(args.html)
-	html_output = replace_links(args.url_replace)
-	message = mime_message(args.subject, args.sendto, args.sender, html_output)
-	send_email(args.server, args.port, args.username, args.password, args.sender, args.sendto, message)
+	main(args)
+		
 	
