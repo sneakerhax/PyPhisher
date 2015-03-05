@@ -3,4 +3,4 @@
 A simple python tool for phishing
 
 ## Description
-This tool was created because I wanted a simple command line tool so more automation could be added in later that would replace all of the links in a pre-crafted html email file and then send the email
+This tool was created for the purpose of phishing during a penetration test. I wanted it to be a command line tool(to allow for automation) that would take a pre-crafted html email file then replace all the links and send the email. 
