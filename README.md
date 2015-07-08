@@ -19,3 +19,4 @@ PyPhisher.py --server mail.server.com --port 25 --username user --password passw
 --sender          The sender that will appear on the email example
 --sendto          Who you would like to send the email to
 ```
+If you need to check your credentials for your SMTP server use: https://github.com/sneakerhax/Python-Network-Tools/blob/master/smtp_authcheck.py
