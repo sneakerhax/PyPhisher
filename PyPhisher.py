@@ -48,7 +48,7 @@ def send_email(server, port, username, password, sender, sendto, message):
 		print "[+] Attempting to use STARTTLS"
 		s.starttls()
 	print "[+] Attempting to say ehlo"
-	s.helo()
+	s.ehlo()
 	if args.username is not None:
 		print "[+] Attempting to Authenticate"
 		if args.password is None:
