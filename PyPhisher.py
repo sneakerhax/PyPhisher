@@ -45,7 +45,7 @@ def send_email(server, port, username, password, sender, sendto, message):
 	print "[+] Attempting to connect to server"
 	s = smtplib.SMTP(server, port)
 	if args.starttls:
-		print "[+] Attempting to user STARTTLS"
+		print "[+] Attempting to use STARTTLS"
 		s.starttls()
 	print "[+] Attempting to say ehlo"
 	s.helo()
