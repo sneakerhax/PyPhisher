@@ -7,7 +7,7 @@ This tool was created for the purpose of phishing during a penetration test. I w
 
 ### Usage:
 ```
-PyPhisher.py --server mail.server.com --port 25 --username user --password password --html phish.txt --url_replace phishlink.com --subject Read!! --sender important@phish.com --sendto target@company.com --list-senders list_emails.txt --attachment somepdffile.pdf
+PyPhisher.py --server mail.server.com --port 25 --username user --password password --html phish.txt --url_replace phishlink.com --subject Read!! --sender important@phish.com --sendto target@company.com --list-sendto list_emails.txt --attachment somepdffile.pdf
 ```
 ### Available options:
 ```
