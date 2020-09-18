@@ -32,4 +32,4 @@ PyPhisher.py --server mail.server.com --port 25 --username user --password passw
 
 If you need to check your credentials for your SMTP server use:
 
-https://github.com/sneakerhax/Python-Network-Tools/blob/master/scripts/smtp_authcheck.py
+https://github.com/sneakerhax/Python-Network-Tools/blob/main/scripts/smtp_authcheck.py
