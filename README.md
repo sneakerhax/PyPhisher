@@ -14,6 +14,12 @@ This tool was created for the purpose of phishing during a penetration test. I w
 ```
 PyPhisher.py --server <mail_server> --port <port> --username <user> --password <password> --html <html_phish> --url_replace <replace_url> --subject <subject> --sendto <email> --list-sendto <list_of_emails> --attachment <attachment_file>
 ```
+
+## Example
+```
+PyPhisher.py --server mail.server.com --port 25 --username user --password password --html phish.txt --url_replace phishlink.com --subject Read!! --sender important@phish.com --sendto target@company.com --list-sendto list_emails.txt --attachment somepdffile.pdf
+```
+
 ## Available options
 ```
 --server          The SMTP server that you are going to be using to send the email
