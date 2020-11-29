@@ -12,7 +12,7 @@ This tool was created for the purpose of phishing during a penetration test. I w
 
 ## Usage
 
-**Requirments**
+**Requirments:**
 
 * SMTP server (Usually runs on port 25)
 * Username and Password (For the SMTP server)
