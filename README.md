@@ -11,6 +11,12 @@ A simple python tool for phishing
 This tool was created for the purpose of phishing during a penetration test. I wanted to create command line tool (to allow for automation) that would take a pre-crafted html email file then replace all the links and send the email. The replacing of links was something I was previously doing manually. This was inspired by SpearPhiser beta by Dave Kennedy from Trustedsec and a feature found in Cobalt Strike by Rapheal Mudge from Strategic Cyber
 
 ## Usage
+
+**Requirments**
+
+* SMTP server (Usually runs on port 25)
+* Username and Password (For the SMTP server)
+
 ```
 PyPhisher.py --server <mail_server> --port <port> --username <user> --password <password> --html <html_phish> --url_replace <replace_url> --subject <subject> --sendto <email> --list-sendto <list_of_emails> --attachment <attachment_file>
 ```
