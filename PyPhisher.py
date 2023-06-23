@@ -107,7 +107,7 @@ def send_email(server, port, username, password, sender, sendto, message):
     s.quit()
 
 
-if __name__ == '__main__':
+def main():
     banner()
     parser = argparse.ArgumentParser()
     parser.add_argument('--server', required=True, action='store', dest='server', type=str, help='server address')
@@ -125,3 +125,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     phish(args)
+
+
+if __name__ == '__main__':
+    main()
