@@ -10,18 +10,18 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 
-
 def banner():
-    print("    ____        ____  __    _      __")
-    print("   / __ \__  __/ __ \/ /_  (_)____/ /_  ___  _____")
-    print("  / /_/ / / / / /_/ / __ \/ / ___/ __ \/ _ \/ ___/")
-    print(" / ____/ /_/ / ____/ / / / (__  ) / / /  __/ /")
-    print("/_/    \__, /_/   /_/ /_/_/____/_/ /_/\___/_/")
-    print("      /____/")
-    print("")
-    print("by: sneakerhax")
-    print("")
+    banner_text = """
+    ____        ____  __    _      __
+   / __ \__  __/ __ \/ /_  (_)____/ /_  ___  _____
+  / /_/ / / / / /_/ / __ \/ / ___/ __ \/ _ \/ ___/
+ / ____/ /_/ / ____/ / / / (__  ) / / /  __/ /
+/_/    \__, /_/   /_/ /_/_/____/_/ /_/\___/_/
+      /____/
 
+by: sneakerhax
+"""
+    print(banner_text)
 
 def phish(args):
     message_html = open_html_file(args.html)
@@ -30,35 +30,25 @@ def phish(args):
     if args.attachment:
         if os.path.isfile(args.attachment):
             attachment = add_attachment(args.attachment)
-    message = mime_message(args.subject, args.sendto, args.sender, html_output, attachment)
+    message = create_mime_message(args.subject, args.sendto, args.sender, html_output, attachment)
     if args.sendto:
-        send_email(args.server, args.port, args.username, args.password, args.sender, args.sendto, message)
+        send_email(args.server, args.port, args.username, args.password, args.sender, args.sendto, message, args.starttls)
     elif args.list_sendto:
-        if not os.path.isfile(args.list_sendto):
-            print("[!] Invalid file {0}".format(args.list_sendto))
-            sys.exit()
-        handler = open(args.list_sendto, "r")
-        sendtos = handler.read().splitlines()
-        handler.close()
-        for sendto in sendtos:
-            send_email(args.server, args.port, args.username, args.password, args.sender, sendto.strip(), message)
+        send_to_list(args, message)
     else:
-        print("[!] You must either submit a dest mail address or a list of dests")
-
+        print("[!] You must either submit a destination email address or a list of destinations")
 
 def open_html_file(file):
     with open(file, 'r') as open_html:
         email_html = open_html.read()
     return email_html
 
-
 def replace_links(url, message):
     html_regex = re.compile(r'href=[\'"]?([^\'" >]+)')
     html_output = html_regex.sub("href=\"{}".format(url), message)
     return html_output
 
-
-def mime_message(subject, sendto, sender, html, attachment):
+def create_mime_message(subject, sendto, sender, html, attachment):
     msg = MIMEMultipart('alternative')
     msg['To'] = sendto
     msg['From'] = sender
@@ -69,7 +59,6 @@ def mime_message(subject, sendto, sender, html, attachment):
         msg.attach(attachment)
     return msg.as_string()
 
-
 def add_attachment(attachment):
     mime_type_major, mime_type_minor = get_mime_type(attachment).split("/")
     with open(attachment, "rb") as f:
@@ -77,28 +66,26 @@ def add_attachment(attachment):
         part.set_payload(f.read())
     part.add_header(
         "Content-Disposition",
-        "attachment; filename={}".format(attachment),
+        "attachment; filename={}".format(os.path.basename(attachment)),
     )
     encoders.encode_base64(part)
     return part
-
 
 def get_mime_type(attachment):
     mime = magic.Magic(mime=True)
     return mime.from_file(attachment)
 
-
-def send_email(server, port, username, password, sender, sendto, message):
+def send_email(server, port, username, password, sender, sendto, message, use_starttls):
     print("[+] Attempting to connect to server")
     s = smtplib.SMTP(server, port)
-    if args.starttls:
+    if use_starttls:
         print("[+] Attempting to use STARTTLS")
         s.starttls()
     print("[+] Attempting to say ehlo")
     s.ehlo()
-    if args.username is not None:
+    if username:
         print("[+] Attempting to Authenticate")
-        if args.password is None:
+        if password is None:
             password = getpass.getpass("Password for {}:".format(username))
         s.login(username, password)
     print("[+] Sending mail to {0}".format(sendto))
@@ -106,6 +93,14 @@ def send_email(server, port, username, password, sender, sendto, message):
     print("[+] Done...")
     s.quit()
 
+def send_to_list(args, message):
+    if not os.path.isfile(args.list_sendto):
+        print("[!] Invalid file {0}".format(args.list_sendto))
+        sys.exit()
+    with open(args.list_sendto, "r") as handler:
+        sendtos = handler.read().splitlines()
+    for sendto in sendtos:
+        send_email(args.server, args.port, args.username, args.password, args.sender, sendto.strip(), message, args.starttls)
 
 def main():
     banner()
@@ -125,7 +120,6 @@ def main():
     args = parser.parse_args()
 
     phish(args)
-
 
 if __name__ == '__main__':
     main()
